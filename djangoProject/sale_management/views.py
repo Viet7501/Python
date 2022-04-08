@@ -12,10 +12,12 @@ def test(request):
     return HttpResponse('This is working properly!')
 
 
-def display_meta(request):
-    values = request.META.items()
-    values.sort
-    html = []
-    for k, v in values:
-        html.append('<tr><td>%s</td><td>%s</td></tr>' % (k, v))
-    return HttpResponse('<table>%s</table>' % '/n'.join(html))
+def homepage(request):
+    return render(request, 'homepage.html')
+
+
+def about(request):
+    return render(request, 'about.html')
+
+def home(request):
+    return HttpResponse('Home page')
