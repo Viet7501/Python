@@ -152,7 +152,7 @@ class Fraction():
         self.mau_so = self.mau_so / _gcd
 
 
-ps1 = Fraction(2, 3)  # Khai báo object ps1 với thuộc tính: tu_so=2, mau_so=3
+ps1 = Fraction(2, 5)  # Khai báo object ps1 với thuộc tính: tu_so=2, mau_so=3
 ps1.show()
 
 ps1.mau_so += 4
