@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from sale_management.constants import OrderStatus
 
 # Create your models here.
 
@@ -57,21 +57,21 @@ class Customer(TrackingAbstractModel):
     address = models.CharField(max_length=500)
 
     def __str__(self):
-        return f'{self.id} - {self.name} - {self.contact_number}'
+        return f'{self.contact_name}'
+
+    def save_name(self):
+        self.name = self.name.upper()
+        self.save()
 
 
 class Product(TrackingAbstractModel):
-    currencies = [
-        ('$', "US Dollars ($)"),
-    ]
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     price = models.DecimalField(decimal_places=2, max_digits=10)
-    currency = models.CharField(max_length=5, choices=currencies, default="$")
     quantity = models.IntegerField()
 
     def __str__(self):
-        return f'{self.id} - {self.name} - {self.currencies}{self.price}'
+        return f'{self.name}'
 
 
 class Order(TrackingAbstractModel):
@@ -80,16 +80,27 @@ class Order(TrackingAbstractModel):
     deliver_at = models.DateField(null=True)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    status = models.IntegerField(default=OrderStatus.STATUS_NEW, choices=OrderStatus.STATUS_CHOICES)
 
     def __str__(self):
-        return f'{self.id} - {self.purchase_at} - {self.deliver_at}'
+        return f'{self.id} - {self.customer.contact_name} - {self.purchase_at} - {self.deliver_at}'
+
+    @property
+    def status_str(self):
+        return OrderStatus.STATUS_CHOICES_DICT.get(self.status)
 
 
 class OrderDetail(TrackingAbstractModel):
     id = models.AutoField(primary_key=True)
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    price = models.FloatField()
     quantity = models.IntegerField()
 
     def __str__(self):
-        return f'{self.id} - {self.order} - {self.product} - {self.quantity}'
+        return f'{self.order} - {self.product} - {self.quantity}'
+
+    @property
+    def subtotal(self):
+        return self.quantity * self.product.price
+

@@ -1,0 +1,79 @@
+<style>
+    label {
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-size: 18px;
+        color: #333;
+        height: 20px;
+        width: 200px;
+        margin-top: 10px;
+        margin-left: 10px;
+        margin-right: 15px;
+        clear: both;
+        float: left;
+    }
+
+    input {
+        height: 20px;
+        width: 150px;
+        border: 1px solid #000;
+        margin-top: 10px;
+        float: left;
+    }
+
+    #header-content {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+}
+.custom-actions-btns {
+    margin: auto;
+    display: flex;
+    justify-content: flex-end;
+}
+.custom-actions-btns .btn {
+    margin: .3rem 0 .3rem .3rem;
+}
+
+
+</style>
+
+<form action="{% url 'sale_management:update_price' product.id %}" method="post">
+    {% csrf_token %}
+    {% if message %}
+        <p><strong>{{ message }}</strong></p>
+    {% endif %}
+    <div class="form-group">
+        <div class="form-group">
+            <label>Id: {{ product.id }} </label>
+        </div>
+
+        <div class="form-group">
+            <label>Name: {{ product.name }} </label>
+        </div>
+
+        <div class="form-group">
+            <label for="price">Price:</label>
+            <input type="number" name="price" id="price" value="{{ product.price }}"/>
+        </div>
+
+        <div class="form-group">
+            <label>Quantity: {{ product.quantity }}</label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label></label>
+        <input type="submit" value="Update Price">
+    </div>
+
+</form>
+
+<div>
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+        <div class="custom-actions-btns mb-5">
+            <a href="{% url 'sale_management:homepage' %}" >
+                <button type="button" class="btn btn-primary btn-lg">Homepage</button>
+            </a>
+        </div>
+    </div>
+</div>

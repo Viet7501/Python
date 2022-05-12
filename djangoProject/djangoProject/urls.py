@@ -15,10 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from sale_management.views import frontpage
+from sale_management.views import layout
 
 urlpatterns = [
     path('admin/', admin.site.urls, name='admin'),
     path('sale_management/', include(('sale_management.urls', 'sale_management'), namespace='sale_management')),
-    # path('', frontpage, name='front page')
+    path('', layout.frontpage, name='front page')
 ]

@@ -2,10 +2,19 @@
 <html lang="en">
 <body style="background-color: #1A233A">
 <style>
-    table, th, td {
-      border: 1px solid black;
-      border-collapse: collapse;
-    }
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+body{
+    margin: 0;
+    padding: 0;
+    font: 400 .875rem 'Open Sans', sans-serif;
+    color: #bcd0f7;
+    background: #1A233A;
+    position: relative;
+    height: 100%;
+}
 </style>
 
 <head>
@@ -17,21 +26,24 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-<h1 style="color:#bcd0f7 "> Employee No.{{ employee.id }}</h1>
+<h1 style="color: #bcd0f7 "> Customer No.{{ customer.id }}</h1>
     <table class="table table-hover" style="color: #bcd0f7">
         <thead>
         <tr>
             <th>Name</th>
+            <th>Contact name</th>
+            <th>Contact number</th>
             <th>Address</th>
-            <th>Date of Birth</th>
         </tr>
         </thead>
         <tr>
-            <td>{{ employee.name }}</td>
-            <td>{{ employee.address }}</td>
-            <td>{{ employee.dob }}</td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.contact_name }}</td>
+            <td>{{ customer.contact_number }}</td>
+            <td>{{ customer.address }}</td>
         </tr>
 
     </table>
+
 </body>
 </html>

@@ -14,7 +14,6 @@ body{
     background: #1A233A;
     position: relative;
     height: 100%;
-
 }
 </style>
 
@@ -27,25 +26,28 @@ body{
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
-{% if employees %}
-    <h1 style="color: #bcd0f7"><strong> Employee</strong></h1>
+{% if customers %}
+    <h1 style="color: #bcd0f7"> <strong>Customer</strong></h1>
     <table class="table table-hover" style="color: #bcd0f7">
     <thead>
         <tr>
             <th>Id</th>
             <th>Name</th>
+            <th>Contact name</th>
+            <th>Address</th>
         </tr>
     </thead>
-        {% for employee in employees %}
+        {% for customer in customers %}
         <tr>
-            <td><a href="{% url 'sale_management:employee_detail' employee.id %}">{{ employee.id }}</a></td>
-            <td>{{ employee.name }}</td>
-
+            <td><a href="{% url 'sale_management:customer_detail' customer.id %}">{{ customer.id }}</a></td>
+            <td>{{ customer.name }}</td>
+            <td>{{ customer.contact_name }}</td>
+            <td>{{ customer.address }}</td>
         </tr>
         {% endfor %}
     </table>
 {% else %}
-    <h1 style="color: #bcd0f7">No employees are available</h1>
+    <h1 style="color: #bcd0f7">Haven't got any customer yet</h1>
 {% endif %}
 
 
