@@ -24,9 +24,10 @@
     									<a href="#" class="btn btn-primary">
     										<i class="icon-download"></i> Download
     									</a>
-    									<a href="#" class="btn btn-secondary">
+    									<a href="javascript:window.print()" class="btn btn-secondary">
     										<i class="icon-printer"></i> Print
     									</a>
+                                        </a>
                                         <a href="{% url 'sale_management:homepage' %}" class="btn btn-secondary">
                                             <i> </i> Homepage
                                         </a>
@@ -58,8 +59,8 @@
     							<div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
     								<div class="invoice-details">
     									<div class="invoice-num">
-    										<div>Ordered at: {{ order.purchase_at }}</div>
-    										<div>Shipment date: {{ order.deliver_at }}</div>
+    										<div>Ordered at: {{ order.purchase_date }}</div>
+    										<div>Shipment date: {{ order.deliver_date }}</div>
     									</div>
     								</div>
     							</div>
@@ -274,6 +275,8 @@ body{
     top: 0;
     left: 0;
 }
+
+
 </style>
 
 <script type="text/javascript">

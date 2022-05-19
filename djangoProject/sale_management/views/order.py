@@ -3,6 +3,14 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, render
 from sale_management.constants import OrderStatus
 
+# Pdf
+from djangoProject import settings
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+import os
+
 
 class DetailView(generic.DetailView):
     model = Order
@@ -66,3 +74,18 @@ def update_status(request, order_id):
             'message': message
         }
     )
+
+
+def fetch_resources(uri, rel):
+    path = os.path.join(uri.replace(settings.STATIC_URL, ""))
+    return path
+
+
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)  # , link_callback=fetch_resources)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None

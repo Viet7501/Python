@@ -17,5 +17,6 @@ urlpatterns = [
 
     path('order/', order.ListingView.as_view(), name='order_listing'),
     path('order/<int:pk>/', order.DetailView.as_view(), name='order_detail'),
-    path('order/<int:order_id>/update_status/', order.update_status, name='update_status')
+    path('order/1/pdf/', order.some_view, name='pdf'),
+    path('order/<int:order_id>/update_status/', order.update_status, name='update_status'),
 ]

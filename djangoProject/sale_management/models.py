@@ -76,14 +76,14 @@ class Product(TrackingAbstractModel):
 
 class Order(TrackingAbstractModel):
     id = models.AutoField(primary_key=True)
-    purchase_at = models.DateTimeField(auto_now_add=True)
-    deliver_at = models.DateField(null=True)
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    deliver_date = models.DateField(null=True)
     employee = models.ForeignKey(Employee, on_delete=models.SET_NULL, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     status = models.IntegerField(default=OrderStatus.STATUS_NEW, choices=OrderStatus.STATUS_CHOICES)
 
     def __str__(self):
-        return f'{self.id} - {self.customer.contact_name} - {self.purchase_at} - {self.deliver_at}'
+        return f'{self.id} - {self.customer.contact_name}'
 
     @property
     def status_str(self):
@@ -96,9 +96,6 @@ class OrderDetail(TrackingAbstractModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     price = models.FloatField()
     quantity = models.IntegerField()
-
-    def __str__(self):
-        return f'{self.order} - {self.product} - {self.quantity}'
 
     @property
     def subtotal(self):
