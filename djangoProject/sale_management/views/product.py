@@ -1,7 +1,10 @@
+import csv
+
 from sale_management.models import Product
 from django.views import generic
 from django.shortcuts import get_object_or_404, render
 from django.db.models import Q
+from django.http import HttpResponse
 
 
 class DetailView(generic.DetailView):
@@ -40,3 +43,20 @@ def update_price(request, product_id):
             'message': message
         }
     )
+
+
+def export_product(request):
+    products = Product.objects.all()
+
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="products.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(['Name', 'Price', 'Quantity'])  # Header of csv file
+
+    for product in products:
+        writer.writerow([product.name, str(product.price), str(product.quantity)])
+
+    return response

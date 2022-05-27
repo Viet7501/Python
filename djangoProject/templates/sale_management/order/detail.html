@@ -21,11 +21,14 @@
     						<div class="row gutters">
     							<div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
     								<div class="custom-actions-btns mb-5">
-    									<a href="#" class="btn btn-primary">
-    										<i class="icon-download"></i> Download
-    									</a>
+                                        <form action="{% url 'sale_management:print_order' order.id %}" method="post">
+                                            {% csrf_token %}
+                                            <div class="form-group">
+                                                    <input type="submit" class="btn btn-primary" id="create_pdf" value="Print Order">
+                                        </div>
+                                        </form>
     									<a href="javascript:window.print()" class="btn btn-secondary">
-    										<i class="icon-printer"></i> Print
+    										<i class="icon-printer"></i> Generate PDF
     									</a>
                                         </a>
                                         <a href="{% url 'sale_management:homepage' %}" class="btn btn-secondary">

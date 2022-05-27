@@ -7,14 +7,14 @@ from .models import Employee, Customer, Product, Order, OrderDetail
 class EmployeeAdmin(admin.ModelAdmin):
     fieldsets = [
         ('Personal Information', {
-            'fields': ['name', 'dob']
+            'fields': ['name', 'dob', 'gender']
         }),
         ('Address', {
             'fields': ['address']
         }),
     ]
 
-    list_display = ['id', 'name', 'address', 'was_employee_birthday_today', 'employee_age']
+    list_display = ['id', 'name', 'address', 'was_employee_birthday_today', 'employee_age', 'gender']
     list_display_links = ['id', 'name']
 
     def was_employee_birthday_today(self, obj):

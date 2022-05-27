@@ -17,6 +17,12 @@
 
 {% if product_list %}
     <h1 style="color: #bcd0f7"><strong> Product</strong></h1>
+    <form action="{% url 'sale_management:export_product' %}" method="post">
+        {% csrf_token %}
+    <div class="form-group">
+        <input type="submit" class="btn btn-primary" id="export" value="Export Product"/>
+    </div>
+    </form>
     <table class="table table-hover" style="color: #bcd0f7">
         <tr>
             <th>Id</th>

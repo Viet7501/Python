@@ -1,8 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
-from sale_management.constants import OrderStatus
+from sale_management.constants import OrderStatus, Gender
 
 # Create your models here.
+
 
 class CreatedAbstractModel(models.Model):
     created_by = models.ForeignKey(
@@ -44,9 +45,15 @@ class Employee(TrackingAbstractModel):
     name = models.CharField(max_length=100)
     address = models.CharField(max_length=500)
     dob = models.DateField(null=True)  # date of birth
+    # gender = models.CharField(max_length=7, choices=Gender.GENDER_CHOICES)
+    gender = models.IntegerField(default=Gender.UNKNOWN, choices=Gender.GENDER_CHOICES)
 
     def __str__(self):
         return f'{self.id} - {self.name}'
+
+    def get_gender_display(self):
+        gender_dict = dict(Gender.GENDER_CHOICES)
+        return gender_dict.get(self.gender)
 
 
 class Customer(TrackingAbstractModel):
@@ -100,4 +107,3 @@ class OrderDetail(TrackingAbstractModel):
     @property
     def subtotal(self):
         return self.quantity * self.product.price
-

@@ -13,3 +13,4 @@ class ListingView(generic.ListView):
 
     def get_queryset(self):
         return Employee.objects.order_by('id')
+

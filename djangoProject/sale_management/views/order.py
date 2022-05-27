@@ -3,13 +3,10 @@ from django.views import generic
 from django.shortcuts import get_object_or_404, render
 from sale_management.constants import OrderStatus
 
-# Pdf
-from djangoProject import settings
-from io import BytesIO
-from django.http import HttpResponse
-from django.template.loader import get_template
-from xhtml2pdf import pisa
-import os
+import io
+from reportlab.pdfgen import canvas
+from django.http import FileResponse
+from reportlab.lib.units import inch
 
 
 class DetailView(generic.DetailView):
@@ -76,16 +73,24 @@ def update_status(request, order_id):
     )
 
 
-def fetch_resources(uri, rel):
-    path = os.path.join(uri.replace(settings.STATIC_URL, ""))
-    return path
+# Generate PDF
+def print_order(request, order_id):
+    order = get_object_or_404(Order, pk=order_id)
 
+    customer = order.customer
+    purchase_date = order.purchase_date
+    status = order.status
 
-def render_to_pdf(template_src, context_dict={}):
-    template = get_template(template_src)
-    html = template.render(context_dict)
-    result = BytesIO()
-    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)  # , link_callback=fetch_resources)
-    if not pdf.err:
-        return HttpResponse(result.getvalue(), content_type='application/pdf')
-    return None
+    buffer = io.BytesIO()  # create a file buffer to receive PDF data
+    pdf = canvas.Canvas(buffer)
+    pdf.drawCentredString(4.15*inch, 11.3*inch, f'Customer: {customer.name}')
+    pdf.drawCentredString(4.15*inch, 10.9*inch, f'Contact name:{customer.contact_name}')
+    pdf.drawCentredString(4.15*inch, 10.5*inch, f'Contact number:{customer.contact_number}')
+    pdf.drawCentredString(4.15*inch, 10.1*inch, f'Purchase date:{purchase_date}')
+    pdf.drawCentredString(4.15*inch, 9.8*inch, f'Status:{status}')
+
+    pdf.showPage()
+    pdf.save()
+
+    buffer.seek(0)
+    return FileResponse(buffer, as_attachment=True, filename='order.pdf')
